@@ -75,7 +75,7 @@ export MAKEFLAGS='--jobs --silent'; \
 echo 'install.packages( c(\
  "devtools",\
  "docopt",\
- "microbenchmark"\
+ "microbenchmark",\
  "packrat",\
  "PKI",\
  "Rcpp",\
