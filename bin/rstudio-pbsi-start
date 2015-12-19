@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+# Start RStudio Desktop Preview
+
+UTMP=${HOME}/.local/tmp
+UCFG=${HOME}/Projects/dockerfiles/common-rstudio-dot-config
+
+PULSESERVER=$(pax11publish | grep Server | cut -d: -f3)
+
+XSOCK=/tmp/.X11-unix
+XAUTH=/tmp/.docker.xauth
+if [ ! -f "$XAUTH" ]; then
+	touch /tmp/.docker.xauth && xauth nextract - $DISPLAY \
+	| tail -n 1 \
+	| xauth -f /tmp/.docker.xauth nmerge -
+fi
+
+docker run -d \
+	-v /etc/machine-id:/etc/machine-id:ro \
+	-v /etc/localtime:/etc/localtime:ro \
+  -v /var/run/dbus:/var/run/dbus \
+	-v /var/run/user/$(id -u):/var/run/user/$(id -u) \
+	--device /dev/dri \
+	-v $XSOCK:$XSOCK \
+	-v $XAUTH:$XAUTH \
+	-e XAUTHORITY=$XAUTH \
+	-e DISPLAY=unix$DISPLAY \
+	--device /dev/snd \
+ 	-v $PULSESERVER:$PULSESERVER \
+ 	-v /dev/shm:/dev/shm \
+	-v $UTMP:$UTMP \
+	-v ${HOME}/.local/tmp:${HOME}/.local/tmp \
+	-v ${HOME}/Projects:${HOME}/Projects \
+	-v $UCFG:${HOME}/.config \
+	rstudio-pbsi "$@"

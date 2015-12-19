@@ -1,0 +1,5 @@
+R_LIBS_USER=/home/thell/.local/lib/R/library
+RSTUDIO_PANDOC=/usr/bin
+MAKEFLAGS='--jobs'
+RMARKDOWN_MATHJAX_PATH=/usr/local/lib/mathjax
+

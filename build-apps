@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+args="$@"
+
+db () {
+  docker build ${args} -f $1 -t $2:latest ./
+}
+
+db thell-rstudio.dockerfile rstudio
+db thell-rstudio-pbsi.dockerfile rstudio-pbsi
+
+if [-e ./lib/eureqa]; then
+	db user-eureqa.dockerfile eureqa
+fi
