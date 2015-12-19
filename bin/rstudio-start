@@ -3,7 +3,7 @@
 # Start RStudio Desktop Preview
 
 # Persisten user config data
-UCFG=${HOME}/Projects/dockerfiles/common-rstudio-dot-config
+UCFG=${HOME}/Projects/dockerfiles/rstudio-common-dot-config
 # Persistent user tmp dir to share with host.
 UTMP=${HOME}/.local/tmp
 

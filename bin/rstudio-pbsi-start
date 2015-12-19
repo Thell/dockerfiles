@@ -3,7 +3,7 @@
 # Start RStudio Desktop Preview
 
 UTMP=${HOME}/.local/tmp
-UCFG=${HOME}/Projects/dockerfiles/common-rstudio-dot-config
+UCFG=${HOME}/Projects/dockerfiles/rstudio-common-dot-config
 
 PULSESERVER=$(pax11publish | grep Server | cut -d: -f3)
 
