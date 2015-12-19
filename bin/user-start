@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Terminator Terminal with comon cli tools
+
+PULSESERVER=$(pax11publish | grep Server | cut -d: -f3)
+utmpdir=${HOME}/.local/tmp
+
+XSOCK=/tmp/.X11-unix
+XAUTH=/tmp/.docker.xauth
+# xauth nlist :0 | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+
+docker run --rm -it \
+	-v /etc/machine-id:/etc/machine-id \
+	-v /etc/localtime:/etc/localtime:ro \
+	--device /dev/dri \
+	-v $XSOCK:$XSOCK \
+	-v $XAUTH:$XAUTH \
+	-e XAUTHORITY=$XAUTH \
+	-e DISPLAY=unix$DISPLAY \
+	--device /dev/snd \
+ 	-v $PULSESERVER:$PULSESERVER \
+ 	-v /dev/shm:/dev/shm \
+	-v $utmpdir:$utmpdir \
+	user "$@"

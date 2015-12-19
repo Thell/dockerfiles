@@ -1,0 +1,22 @@
+#!/bin/bash -ex
+
+docker pull ubuntu:15.10
+
+args="$@"
+
+db () {
+  docker build ${args} -f $1 -t $2:latest ./
+}
+
+db 00-apt.dockerfile apt
+db 10-cli.dockerfile cli
+db 20-gui.dockerfile gui
+db 30-user.dockerfile user
+
+# Building the user.dockerfile for a particular user.
+docker build ${args} -f 30-user.dockerfile \
+  --build-arg USER=thell \
+  --build-arg USERNAME="Thell Fowler" \
+  --build-arg USEREMAIL=thell@tbfowler.name \
+  --build-arg DOSUDO="true" \
+  -t thell:latest ./

@@ -1,0 +1,28 @@
+# helper functions for docker builds
+
+# usage: . ddash; eval "$pstime"; \
+
+set -e
+
+ps_time () {
+  printf "Completed [%s]\n" "$(ps -p $$ -o etime= | tr -d '[:space:]')"
+}
+pstime='trap 'ps_time' EXIT;'
+
+daft () {
+  EAT=eatmydata
+  command -v eatmydata > /dev/null || unset -v EAT
+
+  APT_CMD=apt-get
+  command -v aria2c > /dev/null && command -v apt-fast > /dev/null && APT_CMD=apt-fast
+
+  RECOMMENDS='--no-install-recommends'
+  if [ "$1" = "-r" ]; then
+    RECOMMENDS=
+    shift
+  fi
+
+  export DEBIAN_FRONTEND=noninteractive
+  export DEBIAN_PRIORITY=critical
+  eval "apt-out ${EAT} ${APT_CMD} ${RECOMMENDS} -qq install $@"
+}

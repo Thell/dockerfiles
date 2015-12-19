@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# text console with comon cli tools
+
+docker run --rm -it \
+	--device /dev/dri \
+	--device /dev/snd \
+	-v /etc/localtime:/etc/localtime:ro \
+	-v ${HOME}/.local/tmp:${HOME}/.local/tmp \
+	cli "$@"
