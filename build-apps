@@ -9,6 +9,6 @@ db () {
 db thell-rstudio.dockerfile rstudio
 db thell-rstudio-pbsi.dockerfile rstudio-pbsi
 
-if [-e ./lib/eureqa]; then
+if [ -d ./lib/eureqa ]; then
 	db user-eureqa.dockerfile eureqa
 fi
