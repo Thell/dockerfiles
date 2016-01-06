@@ -13,8 +13,9 @@ USER root
 # Apt repos setup
 RUN . ddash; eval $pstime; \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9; \
-apt-add-repository "deb http://cran.rstudio.com/bin/linux/ubuntu wily/"; \
+# apt-add-repository "deb http://cran.rstudio.com/bin/linux/ubuntu wily/"
 # r-cran- binaries
+add-apt-repository -y "ppa:marutter/rrutter"; \
 apt-add-repository -ys ppa:marutter/c2d4u
 
 RUN . ddash; eval "$pstime"; apt-out apt-get update
