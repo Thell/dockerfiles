@@ -48,3 +48,35 @@ The `start` scripts for the apps are just your standard commands put into a scri
 __Avoid any container in the wild requesting `--privileged` and don't _disable_
 your docker apparmor.__
 
+## Image Notes
+
+### RStudio Image
+
+Of particular interest to authors using Rmarkdown with Mathjax is the setup of
+the (MathJax Third Party Extensions)[1]. It can be quite a hassle to setup
+RStudio, RMarkdown, Mathjax and the third party extensions so that they are
+all available with/without internet access or as self-contained/not-self-contained,
+with a target of pdf or html, etc... etc...
+By using the `RMARKDOWN_MATHJAX_PATH` the local installation can be used and
+with the third party extensions installed in that path as `contrib` this little
+javascript snippet can be used to switch the path and give access to the extensions.
+
+~~~{js}
+<script type="text/x-mathjax-config">
+  if (! /latest/.test(MathJax.Hub.config.root)) {
+    MathJax.Ajax.config.path["Contrib"] = MathJax.Hub.config.root + "/contrib";
+  } else {
+    MathJax.Ajax.config.path["Contrib"] = MathJax.Hub.config.root.replace(/[^\/]+latest/, "contrib");
+  }
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js","[Contrib]/counters/counters.js"],
+    jax: ["input/TeX", "output/SVG"],
+    TeX: {
+      equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js","AMSsymbols.js","extpfeil.js","cancel.js","[Contrib]/xyjax/xypic.js"]
+    }
+  });
+</script>
+~~~
+
+  [1]:https://github.com/mathjax/MathJax-third-party-extensions
