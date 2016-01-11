@@ -27,7 +27,7 @@ chmod +x ./bin/thell-start
 ```
 
 Personally, I rebuild my base containers each time my host system gets a kernel
-update, from start to stop this takes ~8 minutes on a [P75-A7200][1] laptop
+update, from start to stop this takes ~8 minutes on a P75-A7200 laptop
 over wireless without a cache proxy setup.
 
 -----
@@ -53,13 +53,25 @@ your docker apparmor.__
 ### RStudio Image
 
 Of particular interest to authors using Rmarkdown with Mathjax is the setup of
-the (MathJax Third Party Extensions)[1]. It can be quite a hassle to setup
+the [MathJax Third Party Extensions][1]. It can be quite a hassle to setup
 RStudio, RMarkdown, Mathjax and the third party extensions so that they are
 all available with/without internet access or as self-contained/not-self-contained,
 with a target of pdf or html, etc... etc...
 By using the `RMARKDOWN_MATHJAX_PATH` the local installation can be used and
 with the third party extensions installed in that path as `contrib` this little
 javascript snippet can be used to switch the path and give access to the extensions.
+
+~~~{js}
+<script type="text/x-mathjax-config">
+  if (! /latest/.test(MathJax.Hub.config.root)) {
+    MathJax.Ajax.config.path["Contrib"] = MathJax.Hub.config.root + "/contrib";
+  } else {
+    MathJax.Ajax.config.path["Contrib"] = MathJax.Hub.config.root.replace(/[^\/]+latest/, "contrib");
+  }
+</script>
+~~~
+
+For example; to enable a few extensions you might add this to your `Rmarkdown` file.
 
 ~~~{js}
 <script type="text/x-mathjax-config">
@@ -78,5 +90,9 @@ javascript snippet can be used to switch the path and give access to the extensi
   });
 </script>
 ~~~
+
+A problem with doing it directly like this is you'll get a warning/halt when emitting html while
+knitting to pdf. To resolve this you might either make a control chunk that emits that javascript
+when a particular flag is set, or add `always_allow_html: yes` to the yaml header.
 
   [1]:https://github.com/mathjax/MathJax-third-party-extensions
