@@ -11,6 +11,7 @@ daft\
  libgif-dev\
  libjpeg8-dev\
  libpango1.0-dev\
+ librsvg2-bin\
  r-cran-rgl\
  r-cran-xml
 
@@ -48,6 +49,11 @@ sudo bash -c ". .nvm/nvm.sh;\
  nvm alias default 0.12.7;\
  npm install vega@1.5.4;"; \
 ln -s -t ~/.local/bin ~/node_modules/vega/bin/*
+
+RUN \
+git clone https://github.com/sputnick-dev/saxon-lint.git ~/.local/lib/saxon-lint; \
+chmod +x ~/.local/lib/saxon-lint/saxon-lint.pl; \
+sudo ln -s ~/.local/lib/saxon-lint/saxon-lint.pl /usr/local/bin/saxon-lint;
 
 ENTRYPOINT ["/bin/bash", "-l", "-i", "-c"]
 CMD ["rstudio Projects/PBSICanonicalTest/PBSICanonicalTest.Rproj"]
