@@ -8,6 +8,8 @@ db () {
 
 db thell-rstudio.dockerfile rstudio
 db thell-rstudio-pbsi.dockerfile rstudio-pbsi
+db cli-gcc-explorer.dockerfile gcc-explorer
+db cli-cpp-to-assembly.dockerfile cpp-to-assembly
 
 if [ -d ./lib/eureqa ]; then
 	db user-eureqa.dockerfile eureqa

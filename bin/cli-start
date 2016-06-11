@@ -7,4 +7,5 @@ docker run --rm -it \
 	--device /dev/snd \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v ${HOME}/.local/tmp:${HOME}/.local/tmp \
+	-p 6998 -p 6988 \
 	cli "$@"

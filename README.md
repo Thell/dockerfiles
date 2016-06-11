@@ -40,6 +40,8 @@ script.
   great for one-offs, testing external stuff, etc...
 - `thell-rstudio-pbsi` - An example of what I do for project specific setup which
   starts a specific project and includes specific dependencies.
+- the c++ containers are simply local versions to work with the cli base
+  allowing for c++ => assembly exploration.
 
 The `start` scripts for the apps are just your standard commands put into a script.
 
