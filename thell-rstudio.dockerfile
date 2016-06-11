@@ -69,22 +69,40 @@ ln -s /usr/share/doc/littler/examples/install2.r /usr/local/bin/install2.r; \
 ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r; \
 ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r
 
-RUN \
-# R installs
-set -e; \
-export MAKEFLAGS='--jobs --silent'; \
-echo 'install.packages( c(\
- "devtools",\
- "docopt",\
- "microbenchmark",\
- "packrat",\
- "PKI",\
- "Rcpp",\
- "shiny"\
-  ), repos=list( CRAN="https://cran.rstudio.com"), quiet=TRUE )' | r; \
-echo "devtools::install_github('hadley/testthat')" | r; \
-echo "devtools::install_github('hadley/devtools')" | r
+#
+# For some reason builds starting getting errors that no namespace devtools existed...
+#
 
+# RUN \
+# # R installs
+# set -e; \
+# export MAKEFLAGS='--jobs --silent'; \
+# echo 'install.packages( c(\
+#  "devtools",\
+#  "docopt",\
+#  "microbenchmark",\
+#  "packrat",\
+#  "PKI",\
+#  "Rcpp",\
+#  "roxygen2",\
+#  "shiny"\
+#   ), repos=list( CRAN="https://cran.rstudio.com"), quiet=TRUE )' | r; \
+# echo "devtools::install_github('hadley/testthat')" | r; \
+# echo "devtools::install_github('hadley/devtools')" | r
+
+#
+# So split the previous chunk into multiple run commands and it works fines...
+#
+RUN echo 'install.packages("devtools", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("docopt", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("microbenchmark", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("packrat", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("PKI", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("Rcpp", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("roxygen2", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'install.packages("shiny", repos=list(CRAN="https://cran.rstudio.com"), quiet = TRUE)' | r
+RUN echo 'devtools::install_github("hadley/testthat", quiet = TRUE)' | r
+RUN echo 'devtools::install_github("hadley/devtools", quiet = TRUE)' | r
 
 # Non-Apt App Downloads via Aria2
 RUN . ddash && eval "$pstime" \
@@ -120,8 +138,6 @@ RUN . ddash && eval "$pstime" \
 
 && rm input.txt rstudio.deb pandoc.deb mathjax.tar.gz mathjax-contrib.tar.gz \
 
-&& PKG=$(find /usr/lib/rstudio/R/packages/rsconnect*.tar.gz ) \
-&& echo "install.packages( '${PKG}', repos=NULL, quiet=TRUE )" | r \
 && echo 'update.packages(lib.loc = "/usr/lib/R/site-library", \
 	   repo=list( CRAN="https://cran.rstudio.com"), ask=FALSE, quiet=TRUE )' | r
 
