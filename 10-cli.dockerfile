@@ -7,7 +7,7 @@ FROM apt:latest
 RUN \
 apt-add-repository -ys multiverse; \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68576280; \
-apt-add-repository -s "deb https://deb.nodesource.com/node_4.x wily main"
+apt-add-repository -s "deb https://deb.nodesource.com/node_4.x xenial main"
 
 RUN . ddash; eval "$pstime"; apt-out apt-get update
 

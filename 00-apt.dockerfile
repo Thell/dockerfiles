@@ -1,5 +1,5 @@
 # Apt tooling setup
-FROM ubuntu:15.10
+FROM ubuntu:16.04
 
 # BUILD_CMD: docker build ${args} -f 00-apt.dockerfile -t apt:latest ./scripts
 
@@ -28,11 +28,11 @@ LC_ALL=en_US.UTF-8
 # Apt tooling setup
 RUN . ddash; eval "$pstime";\
 apt-out apt-get update; \
-DEBIAN_FRONTEND=noninteractive apt-out apt-get download\
- libapt-inst1.7\
+DEBIAN_FRONTEND=noninteractive apt-out apt-get -yq install\
+ libapt-inst2.0\
  apt-utils; \
-apt-out dpkg -i ./libapt*.deb ./apt*.deb; \
-rm -f ./*.deb; \
+# apt-out dpkg -i ./libapt*.deb ./apt*.deb; \
+# rm -f ./*.deb; \
 daft\
  aria2\
  eatmydata\
