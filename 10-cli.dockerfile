@@ -39,8 +39,8 @@ RUN . ddash; eval "$pstime";\
 # Direct
 URL=https://api.github.com/repos/EricChiang/pup/releases/latest; \
 URL=$(curl -sS ${URL} |\
- jq -r '.assets[]|select(.name=="pup_linux_amd64.zip")|.browser_download_url'); \
-wget -q ${URL}; \
+ jq -r '.assets[]|select(.name|contains("linux_amd64"))|.browser_download_url'); \
+wget -q ${URL} -O pup_linux_amd64.zip; \
 unzip -qq pup_linux_amd64.zip -d /usr/local/bin/; \
 rm pup_linux_amd64.zip
 
