@@ -44,4 +44,12 @@ wget -q ${URL} -O pup_linux_amd64.zip; \
 unzip -qq pup_linux_amd64.zip -d /usr/local/bin/; \
 rm pup_linux_amd64.zip
 
+# It seems the 1.19.0-1build1 version of aria2 has issues with https
+# so we'll use the ubuntu yakkety build for now.
+RUN . ddash; eval "$pstime";\
+URL=http://mirrors.kernel.org/ubuntu/pool/universe/a/aria2/aria2_1.25.0-1_amd64.deb; \
+wget -q ${URL}; \
+gdebi -n aria2_1.25.0-1_amd64.deb; \
+rm aria2_1.25.0-1_amd64.deb
+
 CMD ["/bin/bash", "-l"]
