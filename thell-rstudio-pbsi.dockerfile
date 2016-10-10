@@ -47,7 +47,7 @@ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | 
 sudo bash -c ". .nvm/nvm.sh;\
  nvm install 0.12.7;\
  nvm alias default 0.12.7;\
- npm install vega@1.5.4;"; \
+ npm install --silent vega@1.5.4 >v /dev/null;"; \
 ln -s -t ~/.local/bin ~/node_modules/vega/bin/*
 
 RUN \
